@@ -1,0 +1,7 @@
+extends base.pug
+
+block content 
+    h1 Edit title 
+    form(method="POST")
+        input(name="title" placeholder="New title", value=video.name, required)
+        input(value="Save", type="submit")

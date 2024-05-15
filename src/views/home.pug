@@ -1,0 +1,10 @@
+extends base.pug
+include mixins/videoList
+
+block content 
+    h1 Home!
+    div
+        each video in videos 
+            +videoList(video)
+        else 
+            li Sorry, cannot find any videos.

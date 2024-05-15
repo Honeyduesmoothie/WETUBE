@@ -1,0 +1,6 @@
+export const handleJoin = (req,res) => res.send("Join us")
+export const handleLogin = (req,res) => res.send("Login?")
+export const editUser = (req,res) => res.send("Edit user")
+export const removeUser = (req,res) => res.send("Remove User?")
+export const logOut = (req,res) => res.send("Your are logged out.")
+export const seeUser = (req,res) => res.send("User info")

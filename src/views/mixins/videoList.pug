@@ -1,0 +1,9 @@
+mixin videoList(video)
+    a(href=`/videos/${video.id}`) 
+        h3=video.name
+    ul 
+        li duration: #{video.duration}
+        li ratings: #{video.ratings}/5
+        li comments: #{video.comments}
+        li views: #{video.views}
+        li id: #{video.id} 
