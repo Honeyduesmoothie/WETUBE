@@ -3,6 +3,10 @@ include mixins/videoList
 
 block content 
     h1 Home!
+    nav 
+        ul 
+            li 
+                a(href="/videos/upload") Upload your video
     div
         each video in videos 
             +videoList(video)

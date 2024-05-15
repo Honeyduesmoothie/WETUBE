@@ -1,0 +1,7 @@
+extends base.pug
+
+block content 
+    form(method="POST")
+        label(for="title")
+        input(name="title", id="title", placeholder="Enter the video name" required)
+        input(value="Upload", type="submit")
