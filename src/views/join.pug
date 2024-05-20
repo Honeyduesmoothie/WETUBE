@@ -7,5 +7,10 @@ block content
         input(placeholder="email" type="email" name="email" required)
         input(placeholder="ID" name="username" required)
         input(placeholder="Password" type="password" name="password" minlength="8" required)
-        input(placeholder="Nickname" name="nickname")
+        input(placeholder="Input your password again." type="password" name="password2" minlength="8" required)
+        input(placeholder="Nickname" name="nickname" required)
         input(value="Join" type="submit")
+    hr
+    div 
+        span Already have an account? 
+        a(href="/login") Login now &rarr;

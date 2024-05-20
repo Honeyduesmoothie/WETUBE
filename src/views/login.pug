@@ -1,7 +1,13 @@
 extends base.pug
 
-block content 
-    form(method="get")
-        input(type="text", placeholder="Enter your ID")
-        input(type="password", placeholder="Enter your password")
+block content
+    if errorMessage 
+        h3=errorMessage
+    form(method="post")
+        input(type="text", placeholder="Enter your ID" name="username")
+        input(type="password", placeholder="Enter your password" name="password")
         input(value="Login" type="submit")
+    hr
+    div 
+        span Don't have an account? 
+        a(href="/join") Create one now &rarr;
