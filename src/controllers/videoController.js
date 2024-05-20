@@ -70,5 +70,6 @@ export const searchVideos = async (req,res) => {
             title: {$regex: new RegExp(keyword, "i")},
         })
     }
+    // if no keyword, can't find any videos
     return res.render("search", {pageTitle: "Search", videos})
 }

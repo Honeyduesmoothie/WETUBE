@@ -1,0 +1,11 @@
+extends base
+
+block content
+    if errorMessage 
+        h3=errorMessage
+    form(method="post")
+        input(placeholder="email" type="email" name="email" required)
+        input(placeholder="ID" name="username" required)
+        input(placeholder="Password" type="password" name="password" minlength="8" required)
+        input(placeholder="Nickname" name="nickname")
+        input(value="Join" type="submit")

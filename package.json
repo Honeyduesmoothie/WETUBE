@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Honeyduesmoothie/WETUBE#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "mongoose": "^8.3.5",
     "morgan": "^1.10.0",

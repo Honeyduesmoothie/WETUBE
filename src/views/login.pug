@@ -1,5 +1,7 @@
 extends base.pug
 
-block h1 
-    input(type="text", placeholder="Enter your ID")
-    input(type="pwd", placeholder="Enter your password")
+block content 
+    form(method="get")
+        input(type="text", placeholder="Enter your ID")
+        input(type="password", placeholder="Enter your password")
+        input(value="Login" type="submit")

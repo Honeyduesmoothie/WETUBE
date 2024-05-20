@@ -5,6 +5,6 @@ mixin videoList(video)
         li #{video.description}
         li ratings: #{video.meta.rating}/5
         li views: {video.meta.views}
-        for hashtag in video.hashtags
+        each hashtag in video.hashtags
             span=hashtag
         hr 
