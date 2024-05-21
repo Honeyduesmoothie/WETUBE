@@ -20,6 +20,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     // if true => save all the sessions from every visitor including who isn't logged in. => database waste
+    cookie: {
+        maxAge: 30000,
+    },
     store: MongoStore.create({
         mongoUrl: "mongodb://127.0.0.1:27017/wetube "
     }),
