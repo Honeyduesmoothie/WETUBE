@@ -43,6 +43,9 @@ export const postLogin = async (req,res) => {
     if (!pwdCheck) {
         return res.status(400).render("login", {pageTitle, errorMessage: "Password is wrong.",})
     }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    console.log(req.session)
     return res.redirect("/")
 }
 
