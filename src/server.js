@@ -18,7 +18,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
     secret: "hello!",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    // if true => save all the sessions from every visitor including who isn't logged in. => database waste
     store: MongoStore.create({
         mongoUrl: "mongodb://127.0.0.1:27017/wetube "
     }),
