@@ -1,4 +1,3 @@
-
 import express from "express"
 import morgan from "morgan"
 import rootRouter from "./routers/rootRouter";
@@ -16,15 +15,12 @@ app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({extended: true}))
 app.use(session({
-    secret: "hello!",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
     // if true => save all the sessions from every visitor including who isn't logged in. => database waste
-    cookie: {
-        maxAge: 30000,
-    },
     store: MongoStore.create({
-        mongoUrl: "mongodb://127.0.0.1:27017/wetube "
+        mongoUrl: process.env.MONGO_URL
     }),
 }))
 app.use(localMiddleware);
