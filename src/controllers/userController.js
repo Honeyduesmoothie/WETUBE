@@ -1,6 +1,8 @@
 import User from "../models/User";
 import bcrypt from "bcrypt"
 
+
+
 export const getJoin = (req,res) => res.render("join", {pageTitle: "Create Account"});
 export const postJoin = async (req,res) => {
     const {email, username, password, password2, nickname} = req.body;
@@ -34,7 +36,7 @@ export const login = (req,res) => res.render("login", {pageTitle: "Login"})
 
 export const postLogin = async (req,res) => {
     const {username, password} = req.body;
-    const user = await User.findOne({username})
+    const user = await User.findOne({username, socialID: false})
     const pageTitle =  "Login";
     if (!user) {
         return res.status(400).render("login", {pageTitle, errorMessage: "This account does not exists.",})
@@ -51,7 +53,79 @@ export const postLogin = async (req,res) => {
     return res.redirect("/")
 }
 
+export const startGithubLogin = (req,res) => {
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        scope: "read:user user:email"
+    }
+    const params = new URLSearchParams(config).toString();
+    console.log(params)
+    const baseURL = "https://github.com/login/oauth/authorize"
+    return res.redirect(`${baseURL}?${params}`)
+}
+
+export const finishGithubLogin = async (req,res) => {
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        client_secret: process.env.GH_SECRET,
+        code: req.query.code,
+    }
+    const params = new URLSearchParams(config).toString();
+    const baseURL = "https://github.com/login/oauth/access_token"
+    const finalURL = `${baseURL}?${params}`;
+    const tokenData = await (await fetch(finalURL, {
+        method: "post",
+        headers: 
+        {Accept: "application/json"},
+    })).json();
+    console.log(tokenData)
+    const {access_token} = tokenData;
+    if(access_token){ 
+        const apiURL = "https://api.github.com"
+        const userData = await (await fetch(`${apiURL}/user`, {
+            method: "get",
+            headers:
+            {Authorization: `Bearer ${access_token}`}
+        })).json();
+        console.log(userData)
+        
+        const emailData = await (await fetch(`${apiURL}/user/emails`, {
+            method: "get",
+            headers: {
+                Accept: "application/vnd.github+json",
+                Authorization: `Bearer ${access_token}`
+            }
+        })).json();
+        console.log(emailData)
+        const email = emailData.find(email => email.primary === true && email.verified === true).email;
+        if(!email) {
+            return res.redirect("/");
+        }
+        let user = await User.findOne({
+            email,
+        })
+        if (!user) {
+             user = await User.create({
+                username: userData.login,
+                email,
+                password: "",
+                nickname: userData.login,
+                socialID: true,})
+        } else {
+            req.session.loggedIn = true;
+            req.session.user = user;
+            return res.redirect("/");
+            }
+            
+    } else {
+        return res.redirect("/")
+    }
+}
+
+export const logOut = (req,res) => {
+    req.session.destroy();
+    res.redirect("/")
+}
 export const editUser = (req,res) => res.send("Edit user")
 export const removeUser = (req,res) => res.send("Remove User?");
-export const logOut = (req,res) => res.send("Your are logged out.")
 export const seeUser = (req,res) => res.send("User info")
