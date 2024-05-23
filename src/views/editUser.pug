@@ -1,0 +1,10 @@
+extends base
+
+block content
+    if errorMessage
+        span=errorMessage
+    form(method="post")
+        input(name="username" value=user.username required)
+        input(name="email" value=user.email type="email" required)
+        input(name="nickname" value=user.nickname required)
+        input(value="Update profile" type="submit")

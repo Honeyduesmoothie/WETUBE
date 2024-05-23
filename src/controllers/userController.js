@@ -25,6 +25,7 @@ export const postJoin = async (req,res) => {
         username,
         password,
         nickname,
+        socialID: false,
     })
     return res.redirect("/login")} catch(error) {
         console.log(error)
@@ -37,6 +38,7 @@ export const login = (req,res) => res.render("login", {pageTitle: "Login"})
 export const postLogin = async (req,res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username, socialID: false})
+
     const pageTitle =  "Login";
     if (!user) {
         return res.status(400).render("login", {pageTitle, errorMessage: "This account does not exists.",})
@@ -129,17 +131,38 @@ export const logOut = (req,res) => {
 
 export const getEdit = (req,res) => res.render("editUser", {pageTitle: "Edit profile."})
 export const postEdit = async (req,res) => {
-    // const {username, email, nickname} = req.body;
-    // console.log(req.session)
-    // const originalUsername = req.session.user.username
-    // const user = await User.findOneAndUpdate({originalUsername}, {
-    //     username,
-    //     email, 
-    //     nickname,
-    // });
-    // console.log(user);
-    // req.session.user = user;
-    // res.redirect("/")
+    const oriName = req.session.user.username;
+    const oriEmail = req.session.user.email;
+    const oriNickname = req.session.user.nickname;
+    const {
+        session: {user: {_id}},
+        body: {username, email, nickname},
+    } = req;
+    const userExists = await User.exists({username});
+    if(oriName !== username && userExists){
+        const errorMessage = "Username already exists. Try another one."
+        return res.status(400).render("editUser", {pageTitle: "Edit profile", errorMessage})
+    }
+    const nicknameExists = await User.exists({nickname});
+    if(oriNickname !== nickname && nicknameExists){
+        const errorMessage = "Nickname already exists. Try another one."
+        return res.status(400).render("editUser", {pageTitle: "Edit profile", errorMessage})
+    }
+    const emailExists = await User.exists({email})
+    if(oriEmail !== email && emailExists){
+        const errorMessage = "Email already exists. Try another one."
+        return res.status(400).render("editUser", {pageTitle: "Edit profile", errorMessage})
+    }
+   
+    const user = await User.findByIdAndUpdate({_id}, {
+        username,
+        email, 
+        nickname,
+    }, {
+        new: true
+    });
+    req.session.user = user;
+    res.redirect("/")
 }
 export const removeUser = (req,res) => res.send("Remove User?");
 export const seeUser = (req,res) => res.send("User info")

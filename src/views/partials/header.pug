@@ -5,12 +5,14 @@ header
             li
                 a(href="/") Home
             li 
-                a(href="/videos/upload") Upload
-            li 
                 a(href="/search") Search
             if loggedIn
                 li 
+                    a(href="/videos/upload") Upload
+                li 
                     a(href="/users/logout") Logout
+                li 
+                    a(href="/users/edit") Edit profile
             else
                 li 
                     a(href="/login") Login
