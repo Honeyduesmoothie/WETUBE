@@ -164,5 +164,36 @@ export const postEdit = async (req,res) => {
     req.session.user = user;
     res.redirect("/")
 }
+
+export const getChangePwd = (req,res) => {
+    const {socialID} = req.session.user;
+    if(socialID === true) {
+        return res.status(400).redirect("/")
+    }
+    res.render("change-password", {pageTitle: "Change password"})}
+export const postChangePwd = async (req,res) => {
+    const {
+        session: {
+            user: {_id, password}
+        },
+        body: {oriPwd,
+            newPwd,
+            newPwdConf,
+                   }
+    } = req;
+    const pageTitle = "Change password"
+    const pwdCheck = await bcrypt.compare(oriPwd, password)  
+    if (!pwdCheck) {
+        return res.status(400).render("change-password", {pageTitle, errorMessage: "Password is wrong."})
+    }
+    if(newPwd !== newPwdConf) {
+        return res.status(400).render("change-password", {pageTitle, errorMessage: "New password confirmation does not match."})
+    }
+    const user = await User.findById(_id);
+    user.password = newPwd;
+    user.save();
+    req.session.user = user;
+    return res.redirect("/")
+}
 export const removeUser = (req,res) => res.send("Remove User?");
 export const seeUser = (req,res) => res.send("User info")
