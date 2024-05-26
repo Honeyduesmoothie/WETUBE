@@ -1,0 +1,10 @@
+extends base
+
+block content
+    img(src=`/${user.avatarUrl}` width="100px" height="100px")
+    p Email: #{user.email}
+    p Username: #{user.username}
+    p Nickname: #{user.nickname}
+    if user.socialID
+        p Logged in via Github
+    p My videos: 

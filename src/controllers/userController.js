@@ -28,7 +28,7 @@ export const postJoin = async (req,res) => {
         socialID: false,
     })
     return res.redirect("/login")} catch(error) {
-        console.log(error)
+        // console.log(error)
         return res.status(400).render("join", {pageTitle: "Create Account", errorMessage: error._message})
     }
 }
@@ -51,7 +51,7 @@ export const postLogin = async (req,res) => {
     req.session.loggedIn = true;
     req.session.user = user;
     // session initialization (modification)
-    console.log(req.session)
+    // console.log(req.session)
     return res.redirect("/")
 }
 
@@ -61,7 +61,6 @@ export const startGithubLogin = (req,res) => {
         scope: "read:user user:email"
     }
     const params = new URLSearchParams(config).toString();
-    console.log(params)
     const baseURL = "https://github.com/login/oauth/authorize"
     return res.redirect(`${baseURL}?${params}`)
 }
@@ -198,5 +197,17 @@ export const postChangePwd = async (req,res) => {
     req.session.user = user;
     return res.redirect("/")
 }
+
+export const myProfile = async (req,res) => {
+    const {id} = req.params;
+  try { const user = await User.findById(id);
+    if(!user) {
+        return res.stauts(404).render("404", {pageTitle: "User not found."});
+    }
+    res.render("profile", {pageTitle: user.username, user})}
+        catch(error) {
+            console.log(error)
+            return res.status(404).render("404", {pageTitle: "Page not found."})
+        }
+}
 export const removeUser = (req,res) => res.send("Remove User?");
-export const seeUser = (req,res) => res.send("User info")

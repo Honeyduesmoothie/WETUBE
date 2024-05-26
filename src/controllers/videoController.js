@@ -7,7 +7,8 @@ export const home = async (req,res) => {
 
 export const watchVideos = async (req,res) => {
     const {id } = req.params;
-    const video = await Video.findById(id);
+    const video = await Video.findById(id).populate("owner");
+    console.log(video);
     if(video)
     { return res.render("watch", {pageTitle: video.title, video})
   } else {
@@ -52,7 +53,7 @@ export const postUpload = async (req,res) => {
         url,
         title,
         description,
-        createdBy: user.username,
+        owner: user._id,
         hashtags: Video.formatHashtags(hashtags),
     })
     
