@@ -1,9 +1,12 @@
 extends base
 
 block content
+    img(src=`/${user.avatarUrl}` width="100px" height="100px" object-fit="cover")
     if errorMessage
         span=errorMessage
-    form(method="post")
+    form(method="post" enctype="multipart/form-data")
+        label(for="avatar") Set your avatar image
+        input(name="avatar" type="file"  accept="image/*" id="avatar")
         input(name="username" value=user.username required)
         input(name="email" value=user.email type="email" required)
         input(name="nickname" value=user.nickname required)

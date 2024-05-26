@@ -131,12 +131,14 @@ export const logOut = (req,res) => {
 
 export const getEdit = (req,res) => res.render("editUser", {pageTitle: "Edit profile."})
 export const postEdit = async (req,res) => {
+   
     const oriName = req.session.user.username;
     const oriEmail = req.session.user.email;
     const oriNickname = req.session.user.nickname;
     const {
-        session: {user: {_id}},
+        session: {user: {_id, avatarUrl}},
         body: {username, email, nickname},
+        file,
     } = req;
     const userExists = await User.exists({username});
     if(oriName !== username && userExists){
@@ -158,6 +160,7 @@ export const postEdit = async (req,res) => {
         username,
         email, 
         nickname,
+        avatarUrl: file? file.path : avatarUrl,
     }, {
         new: true
     });

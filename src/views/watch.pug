@@ -2,12 +2,17 @@ extends base.pug
 
 block content 
     h1=video.title
+    video(src=`/${video.url}` width="300px" height="300px" controls)
+    div
+        img(src=`/${user.avatarUrl}` width="50px" height="50px")
+        span=video.createdBy
     p=video.description
     p=video.createdAt
     for hashtag in video.hashtags
         span=hashtag
     p views: #{video.meta.views}
     p rating: #{video.meta.rating}
-    a(href=`${video.id}/edit`) Edit this video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete this video &rarr;
+    if user.username===video.createdBy
+        a(href=`${video.id}/edit`) Edit this video &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete this video &rarr;
