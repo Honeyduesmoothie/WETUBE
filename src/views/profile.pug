@@ -1,4 +1,5 @@
 extends base
+include mixins/videoList
 
 block content
     img(src=`/${user.avatarUrl}` width="100px" height="100px")
@@ -7,4 +8,7 @@ block content
     p Nickname: #{user.nickname}
     if user.socialID
         p Logged in via Github
-    p My videos: 
+    div
+        h3 Uploaded videos
+        each video in user.videos
+            +videoList(video)

@@ -20,6 +20,12 @@ export const postJoin = async (req,res) => {
         const errorMessage = "Nickname already exists. Try another one."
         return res.status(400).render("join", {pageTitle: "Create Account", errorMessage})
     }
+    const emailExists = await User.exists({email});
+    if(emailExists){
+        const errorMessage = "Email already exists. Try another one."
+        return res.status(400).render("join", {pageTitle: "Create Account", errorMessage})
+    }
+    
     try {await User.create({
         email,
         username,
@@ -27,8 +33,9 @@ export const postJoin = async (req,res) => {
         nickname,
         socialID: false,
     })
-    return res.redirect("/login")} catch(error) {
-        // console.log(error)
+    return res.redirect("/login")
+    } catch(error) {
+        console.log(error)
         return res.status(400).render("join", {pageTitle: "Create Account", errorMessage: error._message})
     }
 }
@@ -88,8 +95,6 @@ export const finishGithubLogin = async (req,res) => {
             headers:
             {Authorization: `Bearer ${access_token}`}
         })).json();
-        console.log(userData)
-        
         const emailData = await (await fetch(`${apiURL}/user/emails`, {
             method: "get",
             headers: {
@@ -97,7 +102,6 @@ export const finishGithubLogin = async (req,res) => {
                 Authorization: `Bearer ${access_token}`
             }
         })).json();
-        console.log(emailData)
         const email = emailData.find(email => email.primary === true && email.verified === true).email;
         if(!email) {
             return res.redirect("/");
@@ -200,12 +204,12 @@ export const postChangePwd = async (req,res) => {
 
 export const myProfile = async (req,res) => {
     const {id} = req.params;
-  try { const user = await User.findById(id);
+  try { const user = await User.findById(id).populate("videos");
     if(!user) {
         return res.stauts(404).render("404", {pageTitle: "User not found."});
     }
-    res.render("profile", {pageTitle: user.username, user})}
-        catch(error) {
+   return res.render("profile", {pageTitle: user.username, user})
+    } catch(error) {
             console.log(error)
             return res.status(404).render("404", {pageTitle: "Page not found."})
         }
