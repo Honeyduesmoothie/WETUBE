@@ -4,7 +4,7 @@ block content
     h1=video.title
     div#videoContainer
         video(src=`/${video.url}` width="300px" height="300px")
-        div
+        div#controls
             button#playBtn Play
             button#muteBtn Mute
             input#volumeControl(type="range" min="0" max="1" value="0.5" step="0.1") 
