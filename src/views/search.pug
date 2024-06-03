@@ -1,10 +1,18 @@
 extends base
-include mixins/videoList
+include mixins/searchVideoList
 
 block content 
-    form(method="get")
-        input(placeholder="Search by title" name="keyword")
-        input(type="submit", value="Search") 
-    div 
+    div.search-videos 
         each video in videos
             +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+            +videoList(video)
+        else 
+            h3.empty-message No videos found

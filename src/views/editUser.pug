@@ -1,10 +1,10 @@
 extends base
 
 block content
-    img(src=`/${user.avatarUrl}` width="100px" height="100px" object-fit="cover")
     if errorMessage
         span=errorMessage
-    form(method="post" enctype="multipart/form-data")
+    form.general-form(method="post" enctype="multipart/form-data")
+        img.edit-profile-avatar(src=`/${user.avatarUrl}`)
         label(for="avatar") Set your avatar image
         input(name="avatar" type="file"  accept="image/*" id="avatar")
         input(name="username" value=user.username required)
@@ -13,4 +13,4 @@ block content
         input(value="Update profile" type="submit")
     hr
     if !user.socialID
-        a(href="change-password") Change password &rarr;
+        a(href="change-password").button.change-password Change password

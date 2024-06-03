@@ -1,0 +1,32 @@
+.profile {
+  width: 1200px;
+  margin: 0 auto;
+  .profile__user {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile__user__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: $grey-3;
+      .profile__user__info__nickname {
+        font-size: 30px;
+        font-weight: bold;
+        color: black;
+      }
+    }
+  }
+
+  .profile__videos {
+    h3 {
+      font-size: 20px;
+    }
+  }
+}

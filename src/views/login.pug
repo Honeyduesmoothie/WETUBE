@@ -1,16 +1,18 @@
 extends base.pug
 
 block content
-    if errorMessage 
-        h3=errorMessage
-    form(method="post")
-        input(type="text", placeholder="Enter your ID" name="username")
-        input(type="password", placeholder="Enter your password" name="password")
-        input(value="Login" type="submit")
-        br
-        a(href="/users/github/start") Continue with Github &rarr;
-    hr
-    div 
-        span Don't have an account? 
-        a(href="/join") Create one now &rarr;
+    div.login
+        if errorMessage 
+            h3.error-message=errorMessage
+        form.general-form(method="post")
+            input(type="text", placeholder="Enter your ID" name="username")
+            input(type="password", placeholder="Enter your password" name="password")
+            input(value="Login" type="submit")
+        hr
+        a(href="/users/github/start").button.login__form__github 
+            i(class="fa-brands fa-github")
+            span Continue with Github &rarr;
+        div.login__join 
+            span Don't have an account? 
+            a(href="/join").button Create one now 
     

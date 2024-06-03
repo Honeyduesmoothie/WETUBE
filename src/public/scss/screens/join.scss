@@ -1,0 +1,14 @@
+.join__login {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.social-login {
+  cursor: pointer;
+  width: max-content;
+  margin: 20px auto 20px auto;
+  i {
+    font-size: 25px;
+    margin-right: 10px;
+  }
+}

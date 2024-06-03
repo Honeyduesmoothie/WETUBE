@@ -1,10 +1,21 @@
 mixin videoList(video)
-    a(href=`/videos/${video.id}`) 
-        h3=video.title
-    ul 
-        li #{video.description}
-        li ratings: #{video.meta.rating}/5
-        li views: {video.meta.views}
-        each hashtag in video.hashtags
-            span=hashtag
-        hr 
+    div.video
+        a(href=`/videos/${video.id}`) 
+            img#thumb
+            div.detail
+                div.detail__avatar
+                    if video.owner.avatarUrl
+                        img(src=video.owner.avatarUrl)
+                    else
+                        i(class="fa-solid fa-user")
+                div.detail__meta
+                    h3.detail__meta__title=video.title
+                    div.detail__meta__info
+                        span=video.owner.nickname
+                        if video.meta.views===0 
+                            span no views
+                        else 
+                            span #{video.meta.views} views
+                        div.hashtags
+                            each hashtag in video.hashtags
+                                span=hashtag

@@ -1,0 +1,20 @@
+.login {
+  width: 1200px;
+  margin: 0 auto;
+  .error-message {
+    font-size: 20px;
+    margin: 50px 0px;
+  }
+  .login__form__github {
+    margin: 0 auto;
+    i {
+      font-size: 25px;
+      margin-right: 10px;
+    }
+  }
+}
+.login__join {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

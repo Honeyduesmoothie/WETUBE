@@ -3,7 +3,7 @@ extends base
 block content
     if errorMessage 
         h3=errorMessage
-    form(method="post")
+    form.general-form(method="post")
         input(placeholder="email" type="email" name="email" required)
         input(placeholder="ID" name="username" required)
         input(placeholder="Password" type="password" name="password" minlength="8" required)
@@ -11,6 +11,10 @@ block content
         input(placeholder="Nickname" name="nickname" required)
         input(value="Join" type="submit")
     hr
-    div 
+    div.social-login
+        a(src="/users/github/start").button
+            i(class="fa-brands fa-github")
+            span Continue with Github &rarr; 
+    div.join__login 
         span Already have an account? 
-        a(href="/login") Login now &rarr;
+        a(href="/login").button Login now &rarr;

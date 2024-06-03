@@ -1,7 +1,8 @@
 import Video from "../models/video"
 import User from "../models/User"
 export const home = async (req,res) => {
-        const videos = await Video.find({}).sort({createdAt: "desc"});
+        const videos = await Video.find({}).populate("owner").sort({createdAt: "desc"});
+        console.log(videos)
         return res.render("home", {pageTitle: "Home", videos})
     };
     
@@ -96,7 +97,7 @@ export const searchVideos = async (req,res) => {
     if(keyword) {
         videos = await Video.find({
             title: {$regex: new RegExp(keyword, "i")},
-        })
+        }).populate("owner")
     }
     // if no keyword, can't find any videos
     return res.render("search", {pageTitle: "Search", videos})

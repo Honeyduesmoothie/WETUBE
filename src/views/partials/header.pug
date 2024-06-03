@@ -1,27 +1,33 @@
 header 
-    h1 #{pageTitle}
-    nav 
-        ul 
-            li
-                a(href="/") Home
-            li 
-                a(href="/search") Search
+    nav.nav 
+        div.nav__home
+            a(href="/") 
+                i(class="fa-brands fa-youtube fa-2xl")
+                span WETUBE
+        div.nav__search 
+            form(method="get" action="/search")
+                input(placeholder="Search by title" name="keyword")
+                button(type="submit") 
+                    i(class="fa-solid fa-magnifying-glass")
+        ul.nav__user
             if loggedIn
                 li 
-                    a(href="/videos/upload") Upload
+                    a(href="/videos/upload") 
+                        i(class="fa-solid fa-upload")
+                        span Upload
                 li 
-                    a(href="/users/logout") Logout
+                    a(href=`/users/${user._id}`)
+                        i(class="fa-regular fa-user")
+                        span=user.username
                 li 
-                    a(href=`/users/${user._id}`) My profile
-                li 
-                    a(href="/users/edit") Edit profile
+                    a(href="/users/logout") 
+                        i(class="fa-solid fa-right-from-bracket")
+                        span Logout
             else
-                li 
-                    a(href="/login") Login
-                li 
-                    a(href="/join") Join
-            if loggedIn
-                span Hello! #{user.username}
+                li.nav__user__login 
+                    a(href="/login") 
+                        i(class="fa-solid fa-right-to-bracket")
+                        span Login
                             
         
             

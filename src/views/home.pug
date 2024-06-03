@@ -2,9 +2,7 @@ extends base.pug
 include mixins/videoList
 
 block content 
-    h1 Home!
-    
-    div
+    div.home-videos
         each video in videos 
             +videoList(video)
         else 

@@ -1,0 +1,54 @@
+@import "../config/variables";
+@import "../config/reset";
+@import "../components/header.scss";
+@import "../components/footer.scss";
+@import "./home.scss";
+@import "./search.scss";
+@import "./upload.scss";
+@import "./profile.scss";
+@import "./login.scss";
+@import "./edit-profile.scss";
+@import "./join.scss";
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+main {
+  padding: 20px;
+}
+
+.button {
+  background-color: $light-grey;
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: $grey-4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  &:hover {
+    background-color: $grey-1;
+  }
+}
+
+.general-form {
+  width: 500px;
+  margin: 0px auto 50px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  input {
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid $grey-1;
+    padding: 0px 10px;
+    &[type="submit"] {
+      &:hover {
+        background-color: $grey-1;
+        cursor: pointer;
+      }
+    }
+  }
+}

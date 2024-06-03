@@ -1,0 +1,25 @@
+mixin videoList(video)
+    div.video
+        a(href=`/videos/${video.id}`) 
+            img#thumb
+        a(href=`/videos/${video.id}`)
+            div.detail
+                div.detail__title
+                    h3=video.title
+                    div.detail__title__meta
+                        if video.meta.views===0 
+                            span no views
+                        else 
+                            span #{video.meta.views} views
+                        each hashtag in video.hashtags
+                            span=hashtag
+                div.detail__user
+                    if video.owner.avatarUrl
+                        img(src=video.owner.avatarUrl)
+                    else
+                        i(class="fa-solid fa-user")           
+                    div.detail__user__nickname
+                        span=video.owner.nickname
+                div.detail__desc
+                    p=video.description
+                    
