@@ -5,6 +5,8 @@ const timeline = document.getElementById("timeline");
 const volumeControl = document.getElementById("volumeControl");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const fullScreen = document.getElementById("fullScreen");
+const videoContainer = document.getElementById("videoContainer");
 
 
 let volume = 0.5;
@@ -51,10 +53,29 @@ function handleVolumeControl(event){
 }
 function handleLMT(e){
     totalTime.textContent = useISOString(video.duration);
+    timeline.max = video.duration;
 }
 
 function handleTimeUpdate(){
     currentTime.textContent = useISOString(video.currentTime);
+    timeline.value = video.currentTime;
+}
+
+let playStatus = false;
+const handleTimeline = (event)=>{
+    video.currentTime = timeline.value;
+}
+
+function handleFullScreen(){
+    if(document.fullscreenElement){
+        // document.fullscreenElement => returns any element being in fullscreen mode, read-only.
+        fullScreen.textContent = "Enter full screen"
+        document.exitFullscreen();
+    } else{
+        fullScreen.textContent = "Exit full screen"
+    videoContainer.requestFullscreen();
+    }
+    // document.extiFullscreen() vs element.requestFullscreen()
 }
 
 playBtn.addEventListener("click", handlePlayBtn)
@@ -62,6 +83,17 @@ muteBtn.addEventListener("click", handleMuteBtn)
 volumeControl.addEventListener("input", handleVolumeControl)
 video.addEventListener("loadedmetadata", handleLMT);
 video.addEventListener("timeupdate", handleTimeUpdate)
+timeline.addEventListener("input", handleTimeline)
+timeline.addEventListener("mousedown", (event)=>{
+    playStatus = video.paused? false:true;
+    console.log(playStatus)
+    video.pause();
+    event.target.addEventListener("mouseup", ()=>{
+        playStatus? video.play():video.pause();
+    })
+});
+fullScreen.addEventListener("click", handleFullScreen)
+
 
 function displayTimer (time){
     const minutes = Math.floor(time/60);
@@ -79,3 +111,4 @@ function useISOString(time) {
     console.log(ISOString);
     return ISOString.substring(11,19);
 }
+

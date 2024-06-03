@@ -2,15 +2,18 @@ extends base.pug
 
 block content 
     h1=video.title
-    video(src=`/${video.url}` width="300px" height="300px" controls)
-    div
-        button#playBtn Play
-        button#muteBtn Mute
-        input#volumeControl(type="range" min="0" max="1" value="0.5" step="0.1") 
-        div 
-            span#currentTime 00:00 
-            span  / 
-            span#totalTime 00:00
+    div#videoContainer
+        video(src=`/${video.url}` width="300px" height="300px")
+        div
+            button#playBtn Play
+            button#muteBtn Mute
+            input#volumeControl(type="range" min="0" max="1" value="0.5" step="0.1") 
+            div 
+                input(type="range", min="0", value=0)#timeline
+                span#currentTime 00:00 
+                span  / 
+                span#totalTime 00:00
+                button#fullScreen Full Screen
     //- div
     //-     img(src=`/${user.avatarUrl}` width="50px" height="50px")
     //-     a(href=`/users/${video.owner._id}`)=video.owner.username
