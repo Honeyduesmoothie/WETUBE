@@ -9,6 +9,7 @@
 @import "./login.scss";
 @import "./edit-profile.scss";
 @import "./join.scss";
+@import "./watch.scss";
 
 a {
   text-decoration: none;
@@ -51,4 +52,9 @@ main {
       }
     }
   }
+}
+
+#hashtag {
+  color: $grey-3;
+  margin-right: 5px;
 }

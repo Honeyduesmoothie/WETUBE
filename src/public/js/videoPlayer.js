@@ -14,21 +14,22 @@ let volume = 0.5;
 let controlsTimeout = null;
 let mouseTimeout = null;
 video.volume = volume;
-controls.style.display = "none";
 // play button
-const handlePlayBtn = (e) =>{
+const playNpause = (e) =>{
     if(video.paused){
         playVideo();
     } else {
         video.pause();
+        playStatus = false;
     }
-    playBtn.textContent = video.paused? "Play" : "Pause"
+    playBtn.innerHTML = video.paused? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause fa-lg"></i>'
 }
 
 async function playVideo() {
     try {
       await video.play();
       playBtn.classList.add("playing");
+      playStatus = true;
     } catch (err) {
         console.log(err)
       playBtn.classList.remove("playing");
@@ -43,7 +44,7 @@ function handleMuteBtn(){
         video.muted = true;
         volumeControl.value = 0;
     }
-    muteBtn.textContent = video.muted? "Unmute":"Mute";
+    muteBtn.innerHTML = video.muted? '<i class="fa-solid fa-volume-xmark"></i>':'<i class="fa-solid fa-volume-high"></i>';
 }
 
 function handleVolumeControl(event){
@@ -52,7 +53,7 @@ function handleVolumeControl(event){
     video.volume = volume;
     if(video.muted) {
         video.muted = false;
-        muteBtn.textContent = "Mute";
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
     }
 }
 function handleLMT(e){
@@ -73,17 +74,17 @@ const handleTimeline = (event)=>{
 function handleFullScreen(){
     if(document.fullscreenElement){
         // document.fullscreenElement => returns any element being in fullscreen mode, read-only.
-        fullScreen.textContent = "Enter full screen"
+        fullScreen.innerHTML = '<i class="fa-solid fa-expand"></i>'
         document.exitFullscreen();
     } else{
-        fullScreen.textContent = "Exit full screen"
+        fullScreen.innerHTML = '<i class="fa-solid fa-compress"></i>'
     videoContainer.requestFullscreen();
     }
     // document.extiFullscreen() vs element.requestFullscreen()
 }
 
 function handleMouseMove(e){
-    controls.style.display = "block";
+    controls.classList.add("showing")
     if(controlsTimeout){
         clearTimeout(controlsTimeout);
         controlsTimeout = null;
@@ -93,18 +94,34 @@ function handleMouseMove(e){
         mouseTimeout = null;
     }
     mouseTimeout = setTimeout(()=>{
-        controls.style.display = "none";
+        controls.classList.remove("showing")
     }, 1000)
 }
 
 function handleMouseLeave(){
     controlsTimeout = setTimeout(()=>{
-        controls.style.display = "none";
+        controls.classList.remove("showing")
     }, 1000)
     
 }
 
-playBtn.addEventListener("click", handlePlayBtn)
+function playFaster(event){ 
+    event.preventDefault();
+    if(event.key === " " && event.repeat === true) {
+        video.playbackRate = 2.0; 
+    }
+}
+function spaceBarPlay(event){
+    if(event.key === " ") { 
+        playNpause();
+        video.playbackRate = 1.0;
+    }
+}
+
+playBtn.addEventListener("click", playNpause)
+videoContainer.addEventListener("click", playNpause)
+window.addEventListener("keydown", playFaster)
+window.addEventListener("keyup", spaceBarPlay)
 muteBtn.addEventListener("click", handleMuteBtn)
 volumeControl.addEventListener("input", handleVolumeControl)
 video.addEventListener("loadedmetadata", handleLMT);
@@ -119,8 +136,8 @@ timeline.addEventListener("mousedown", (event)=>{
     })
 });
 fullScreen.addEventListener("click", handleFullScreen)
-video.addEventListener("mousemove", handleMouseMove)
-video.addEventListener("mouseleave", handleMouseLeave)
+videoContainer.addEventListener("mousemove", handleMouseMove)
+videoContainer.addEventListener("mouseleave", handleMouseLeave)
 
 
 function displayTimer (time){

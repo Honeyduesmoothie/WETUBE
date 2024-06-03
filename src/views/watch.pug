@@ -1,31 +1,39 @@
 extends base.pug
 
 block content 
-    h1=video.title
     div#videoContainer
-        video(src=`/${video.url}` width="300px" height="300px")
+        video(src=`/${video.url}`)
         div#controls
-            button#playBtn Play
-            button#muteBtn Mute
-            input#volumeControl(type="range" min="0" max="1" value="0.5" step="0.1") 
-            div 
+            div#playNmute
+                button#playBtn
+                    <i class="fa-solid fa-play"></i>
+                button#muteBtn 
+                    <i class="fa-solid fa-volume-high"></i>
+                input#volumeControl(type="range" min="0" max="1" value="0.5" step="0.1") 
+            div.timeline-container
                 input(type="range", min="0", value=0)#timeline
                 span#currentTime 00:00 
                 span  / 
                 span#totalTime 00:00
-                button#fullScreen Full Screen
-    //- div
-    //-     img(src=`/${user.avatarUrl}` width="50px" height="50px")
-    //-     a(href=`/users/${video.owner._id}`)=video.owner.username
-    //- p=video.description
-    //- p=video.createdAt
-    //- for hashtag in video.hashtags
-    //-     span=hashtag
-    //- p views: #{video.meta.views}
-    //- p rating: #{video.meta.rating}
-    //- if user.username===video.owner.username
-    //-     a(href=`${video.id}/edit`) Edit this video &rarr;
-    //-     br
-    //-     a(href=`${video.id}/delete`) Delete this video &rarr;
+            div
+                button#fullScreen 
+                    <i class="fa-solid fa-expand"></i>
+    div.video-meta
+        h1.video-meta__title=video.title
+        div.video-meta__info
+            div.video-meta__info__avatar
+                img(src=`/${user.avatarUrl}` width="50px" height="50px")
+            div.video-meta__info__profile
+                a(href=`/users/${video.owner._id}`)=video.owner.username
+        div.video-meta__detail
+            span.video-meta__detail__views #{video.meta.views} views   
+            span.video-meta__detail__date #{video.createdAt}
+            each hashtag in video.hashtags
+                span#hashtag=hashtag
+            p=video.description
+        if user.username===video.owner.username
+            a.button(href=`${video.id}/edit`) Edit this video &rarr;
+            br
+            a.button(href=`${video.id}/delete`) Delete this video &rarr;
 block scripts
     script(src="/assets/js/video.js")  
