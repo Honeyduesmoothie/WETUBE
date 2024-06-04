@@ -4,7 +4,8 @@ const path = require("path")
 module.exports = {
     entry: {
       main: "./src/public/js/app.js",
-      video: "./src/public/js/videoPlayer.js"
+      video: "./src/public/js/videoPlayer.js",
+      recorder: "./src/public/js/recorder.js"
     },
     mode:"development",
     plugins: [new MiniCssExtractPlugin({

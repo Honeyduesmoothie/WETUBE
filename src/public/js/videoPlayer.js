@@ -117,6 +117,12 @@ function spaceBarPlay(event){
         video.playbackRate = 1.0;
     }
 }
+async function handleEnded(){
+    const {id }= videoContainer.dataset;
+    await fetch(`/api/videos/${id}/view`, {
+        method: "post",
+    })
+}
 
 playBtn.addEventListener("click", playNpause)
 videoContainer.addEventListener("click", playNpause)
@@ -126,6 +132,7 @@ muteBtn.addEventListener("click", handleMuteBtn)
 volumeControl.addEventListener("input", handleVolumeControl)
 video.addEventListener("loadedmetadata", handleLMT);
 video.addEventListener("timeupdate", handleTimeUpdate)
+video.addEventListener("ended", handleEnded)
 timeline.addEventListener("input", handleTimeline)
 timeline.addEventListener("mousedown", (event)=>{
     playStatus = video.paused? false:true;
