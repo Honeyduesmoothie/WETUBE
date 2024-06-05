@@ -2,7 +2,6 @@ import Video from "../models/video"
 import User from "../models/User"
 export const home = async (req,res) => {
         const videos = await Video.find({}).populate("owner").sort({createdAt: "desc"});
-        console.log(videos)
         return res.render("home", {pageTitle: "Home", videos})
     };
     
@@ -21,6 +20,7 @@ export const editVideos = async (req,res) => {
     const video = await Video.findById(id);
     const {user: {_id}} = req.session;
     if(String(video.owner) !== _id) {
+        req.flash("error", "Only owners can edit the video.")
         return res.status(403).redirect("/")
     }
     if(!video){
@@ -36,8 +36,8 @@ export const postEdit = async (req,res) => {
     if (!video) {
         return res.status(404).render("404", {pageTitle: "Video not found."})
     }
-    console.log(video)
     if(String(video.owner) !== _id) {
+        req.flash("error", "Only owners can edit the video.")
         return res.status(403).redirect("/")
     }
    try { await Video.findByIdAndUpdate(id, {
@@ -45,6 +45,7 @@ export const postEdit = async (req,res) => {
         description,
         hashtags : Video.formatHashtags(hashtags)
     });
+    req.flash("info", "Editing completed")
     return res.redirect(`/videos/${id}`);
 } catch(error) {
         console.log(error)
@@ -59,12 +60,15 @@ export const getUpload = (req,res) => {
 export const postUpload = async (req,res) => {
     const {
         body: {title, description, hashtags},
-        file: {path:url},
+        files: {video, thumbnail},
         session: {user: {_id}},
             } = req;
+    const videoUrl = video[0].path;
+    const thumbnailUrl = thumbnail[0].path;
     try{
     const newVideo = await Video.create({
-        url,
+        videoUrl,
+        thumbnailUrl,
         title,
         description,
         owner: _id,
@@ -73,6 +77,7 @@ export const postUpload = async (req,res) => {
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
+    req.flash("info", "Upload completed")
     return res.redirect("/");
 } catch(error) {
     console.log(error)
@@ -88,6 +93,7 @@ export const deleteVideos = async (req,res) => {
         return res.status(403).redirect("/")
     }
     await Video.deleteOne({_id:id});
+    req.flash("info", "Deleting completed")
     return res.redirect("/");
 }
 

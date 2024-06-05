@@ -1,17 +1,21 @@
 extends base.pug
 
 block content 
-    div#recorder
+    div#recorder.recorder
         video#preview
-        button#recordBtn Record
+        button#recordBtn.recordBtn 
+            <i class="fa-solid fa-record-vinyl"></i>
+            span Record
     if errorMessage 
         h3.error-message=errorMessage
     form.general-form(method="POST" enctype="multipart/form-data")
-        label(for="video") Select a video
+        label.file-label.form-button(for="video") Select a video
         input(name="video" type="file" accept="video/*" required id="video")
+        label.file-label.form-button(for="thumbnail") Select a thumbnail image
+        input(name="thumbnail" type="file" accept="image/*" required id="thumbnail")
         input(name="title", id="title", placeholder="Video title" required maxlength="80")
-        input(name="description", id="description", placeholder="Description" required minlength="20")
+        textarea.general-form__description(name="description", id="description", placeholder="Description" required minlength="5")
         input(name="hashtags", id="hashtags", placeholder="Hashtags, separated by comma" required)
-        input(value="Upload", type="submit")
+        input.form-button(value="Upload", type="submit")
 block scripts
     script(src="/assets/js/recorder.js") 

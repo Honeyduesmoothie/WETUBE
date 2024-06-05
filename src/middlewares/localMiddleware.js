@@ -10,6 +10,7 @@ export const protectorMiddelware = (req,res,next) => {
     if(req.session.loggedIn) {
         next();
     } else {
+        req.flash("error", "Please log in first")
        return res.redirect("/login")
     }
 }
@@ -18,6 +19,7 @@ export const protectorMiddelware = (req,res,next) => {
 
 export const publicOnlyMiddleware = (req,res,next) => {
     if(req.session.loggedIn) {
+        req.flash("error", "You are already logged in")
         return res.redirect("/")
     } else {
         next();

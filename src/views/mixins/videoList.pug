@@ -1,7 +1,7 @@
 mixin videoList(video)
     div.video
         a(href=`/videos/${video.id}`) 
-            img#thumb
+            img#thumb(src=`${video.thumbnailUrl}`)
             div.detail
                 div.detail__avatar
                     if video.owner.avatarUrl
@@ -16,6 +16,4 @@ mixin videoList(video)
                             span no views
                         else 
                             span #{video.meta.views} views
-                        div.hashtags
-                            each hashtag in video.hashtags
-                                span=hashtag
+                        

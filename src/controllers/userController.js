@@ -33,6 +33,7 @@ export const postJoin = async (req,res) => {
         nickname,
         socialID: false,
     })
+    req.flash("info","Your account has been successfully created")
     return res.redirect("/login")
     } catch(error) {
         console.log(error)
@@ -168,6 +169,7 @@ export const postEdit = async (req,res) => {
         new: true
     });
     req.session.user = user;
+    req.flash("info", "Editing completed")
     res.redirect("/")
 }
 
@@ -199,6 +201,7 @@ export const postChangePwd = async (req,res) => {
     user.password = newPwd;
     user.save();
     req.session.user = user;
+    req.flash("info", "Password changed")
     return res.redirect("/")
 }
 

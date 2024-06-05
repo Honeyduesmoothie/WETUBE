@@ -10,7 +10,7 @@ block content
         input(name="username" value=user.username required)
         input(name="email" value=user.email type="email" required)
         input(name="nickname" value=user.nickname required)
-        input(value="Update profile" type="submit")
+        input.form-button(value="Update profile" type="submit")
     hr
     if !user.socialID
         a(href="change-password").button.change-password Change password

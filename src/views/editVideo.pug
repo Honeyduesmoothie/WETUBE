@@ -1,9 +1,8 @@
 extends base.pug
 
 block content 
-    h1 Edit 
-    form(method="POST")
+    form.general-form(method="POST")
         input(name="title" placeholder="New title", value=video.title, required maxlength="80")
-        input(name="description", id="description", placeholder="Description" value=video.description, required minlength="20")
+        textarea(name="description", id="description", placeholder="Description" required minlength="20") #{video.description}
         input(name="hashtags", id="hashtags", placeholder="Hashtags, separated by comma" value=video.hashtags.join() required)
-        input(value="Save", type="submit")
+        input.form-button(value="Save", type="submit")

@@ -2,7 +2,7 @@ extends base.pug
 
 block content 
     div#videoContainer(data-id=video.id)
-        video(src=`/${video.url}`)
+        video(src=`/${video.videoUrl}` poster=`/${video.thumbnailUrl}`)
         div#controls
             div#playNmute
                 button#playBtn
@@ -22,7 +22,7 @@ block content
         h1.video-meta__title=video.title
         div.video-meta__info
             div.video-meta__info__avatar
-                img(src=`/${user.avatarUrl}` width="50px" height="50px")
+                img(src=`/${user.avatarUrl}`)
             div.video-meta__info__profile
                 a(href=`/users/${video.owner._id}`)=video.owner.username
         div.video-meta__detail

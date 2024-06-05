@@ -21,40 +21,97 @@ main {
 }
 
 .button {
-  background-color: $light-grey;
+  background-color: white;
+  box-shadow: 0 0 5px rgb(0, 0, 0, 0.3);
   padding: 10px 20px;
   border-radius: 20px;
   color: $grey-4;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: coral;
+  font-weight: bold;
   width: max-content;
   &:hover {
     background-color: $grey-1;
   }
 }
 
+.form-button {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 10px;
+  background-color: rgb(255, 0, 0);
+  box-shadow: 0 0 5px rgb(0, 0, 0, 0.3);
+  color: white;
+  text-align: center;
+  box-sizing: content-box;
+  &:hover {
+    background-color: rgb(255, 0, 0, 0.3);
+    cursor: pointer;
+  }
+}
+
 .general-form {
-  width: 500px;
+  width: 300px;
   margin: 0px auto 50px auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
+  textarea {
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+    border: 1px solid $grey-1;
+    padding: 10px 10px;
+    font-family: inherit;
+  }
   input {
+    width: 100%;
     height: 40px;
     border-radius: 10px;
     border: 1px solid $grey-1;
     padding: 0px 10px;
-    &[type="submit"] {
-      &:hover {
-        background-color: $grey-1;
-        cursor: pointer;
-      }
-    }
   }
 }
 
 #hashtag {
   color: $grey-3;
   margin-right: 5px;
+}
+@keyframes notification {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.messages {
+  width: max-content;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 50px;
+  background-color: rgb(255, 0, 0);
+  color: white;
+  animation: notification 5s ease-in-out;
+  opacity: 0;
 }
