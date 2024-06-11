@@ -164,8 +164,11 @@
           border-bottom: 2px solid black;
         }
       }
-      button {
+      .commentSection_form_button-container {
         align-self: flex-end;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
     }
     .commentSection__notice {
@@ -174,13 +177,15 @@
     }
   }
   .comment-lists {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 20px;
     .comment-list {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       gap: 10px;
+      margin-bottom: 20px;
       .comment-wrapper {
         display: flex;
         gap: 10px;
@@ -208,6 +213,8 @@
         cursor: pointer;
         position: relative;
         .menu__options {
+          z-index: 5;
+          background-color: white;
           position: absolute;
           left: -10px;
           top: 20px;

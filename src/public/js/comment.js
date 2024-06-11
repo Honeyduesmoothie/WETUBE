@@ -27,6 +27,8 @@ async function handleSubmit(e) {
 }
 form.addEventListener("submit", handleSubmit);
 
+// fake comment
+
 function showTemporaryComment(json, text) {
   const li = document.createElement("li");
   li.className = "comment-list";
@@ -55,59 +57,127 @@ function showTemporaryComment(json, text) {
   div2.appendChild(p);
   div1.appendChild(div2);
   li.appendChild(div1);
-  const div3 = document.createElement("div");
-  div3.className = "comment-list__comment__menu";
-  div3.id = "commentMenu";
-  div3.dataset.id = json.commentId;
+
+  const commentMenu = document.createElement("div");
+  commentMenu.className = "comment-list__comment__menu";
+  commentMenu.id = "commentMenu";
+  commentMenu.dataset.id = json.commentId;
   const ellipsisIcon = document.createElement("i");
   ellipsisIcon.className = "fa-solid fa-ellipsis-vertical";
-  div3.appendChild(ellipsisIcon);
-  const div4 = document.createElement("div");
-  div4.className = "menu__options hidden";
-  div4.id = "commentMenuOptions";
-  div4.dataset.id = json.commentId;
-  const div5 = document.createElement("div");
-  div5.className = "menu__option";
-  div5.id = "commentRemoveBtn";
-  div5.dataset.id = json.commentId;
-  const trashIcon = document.createElement("i");
-  trashIcon.className = "fa-solid fa-trash";
-  div5.appendChild(trashIcon);
-  const span = document.createElement("span");
-  span.textContent = "remove";
-  div5.appendChild(span);
-  div4.appendChild(div5);
-  div3.appendChild(div4);
-  li.appendChild(div3);
+  commentMenu.appendChild(ellipsisIcon);
+
+  commentMenu.addEventListener("click", createMenuOptions);
+
+  li.appendChild(commentMenu);
   commentList.prepend(li);
-  div3.addEventListener("click", showCommentMenu);
-  div5.addEventListener("click", handleRemoveComment);
+
+  // edit form
+
+  const formList = document.createElement("li");
+  formList.className = "comment-form-list hidden";
+  formList.id = "commentEditForm";
+  formList.dataset.id = json.commentId;
+
+  const formContainer = document.createElement("div");
+  formContainer.className = "commentSection_form-container";
+
+  const img = document.createElement("img");
+  img.src = `/${json.user.avatarUrl}`;
+  img.className = "commentSection_avatar";
+
+  const editForm = document.createElement("form");
+  editForm.className = "commentSection_form";
+  editForm.dataset.id = json.commentId;
+
+  const textarea = document.createElement("textarea");
+
+  const btnContainer = document.createElement("div");
+  btnContainer.className = "commentSection_form_button-container";
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "button";
+  cancelBtn.id = "commentEditCancelBtn";
+  cancelBtn.textContent = "Cancel";
+
+  const submitBtn = document.createElement("button");
+  submitBtn.className = "button";
+  submitBtn.id = "commentEditSubmitBtn";
+  submitBtn.textContent = "Edit";
+
+  btnContainer.appendChild(cancelBtn);
+  btnContainer.appendChild(submitBtn);
+  editForm.appendChild(textarea);
+  editForm.appendChild(btnContainer);
+  formContainer.appendChild(img);
+  formContainer.appendChild(editForm);
+  formList.appendChild(formContainer);
+  commentList.prepend(formList);
+
+  //  comment count
+
   commentCount++;
   showCommentNumber();
 }
 
-// comment utilities
-function showCommentMenu(event) {
-  const id = event.currentTarget.dataset.id;
-  const commentMenuOptionsArray = Array.from(
-    document.querySelectorAll("#commentMenuOptions")
+function createMenuOptions(event) {
+  const { id } = event.currentTarget.dataset;
+  const commentMenus = document.querySelectorAll("#commentMenu");
+  const commentMenuArray = Array.from(commentMenus);
+  const commentMenu = commentMenuArray.find(
+    (commentMenu) => commentMenu.dataset.id === id
   );
-  console.log(commentMenuOptionsArray);
-  const commentMenuOptions = commentMenuOptionsArray.find(
-    (element) => element.dataset.id === id
-  );
-  commentMenuOptions.classList.toggle("hidden");
+  const menuOptions = document.createElement("div");
+  menuOptions.className = "menu__options";
+  menuOptions.id = "commentMenuOptions";
+  // removeBtn
+  const removeBtn = document.createElement("div");
+  removeBtn.className = "menu__option";
+  removeBtn.id = "commentRemoveBtn";
+  const trashIcon = document.createElement("i");
+  trashIcon.className = "fa-solid fa-trash";
+  removeBtn.appendChild(trashIcon);
+  const span = document.createElement("span");
+  span.textContent = "remove";
+  removeBtn.appendChild(span);
+  menuOptions.appendChild(removeBtn);
+  // editBtn
+  const editBtn = document.createElement("div");
+  editBtn.className = "menu__option";
+  editBtn.id = "commenteditBtn";
+  const penIcon = document.createElement("i");
+  penIcon.className = "fa-solid fa-pen";
+  editBtn.appendChild(penIcon);
+  const editSpan = document.createElement("span");
+  editSpan.textContent = "edit";
+  editBtn.appendChild(editSpan);
+  menuOptions.appendChild(editBtn);
+
+  commentMenu.appendChild(menuOptions);
+
+  // event handlers
+
+  commentMenu.removeEventListener("click", createMenuOptions);
+  commentMenu.addEventListener("click", removeMenuOptions);
+  removeBtn.addEventListener("click", handleRemoveComment);
+  editBtn.addEventListener("click", showCommentEditForm);
+}
+
+function removeMenuOptions(event) {
+  const menuOptions = document.querySelector("#commentMenuOptions");
+  menuOptions.remove();
+  event.currentTarget.removeEventListener("click", removeMenuOptions);
+  event.currentTarget.addEventListener("click", createMenuOptions);
 }
 
 if (commentMenus) {
   commentMenus.forEach((commentMenu) =>
-    commentMenu.addEventListener("click", showCommentMenu)
+    commentMenu.addEventListener("click", createMenuOptions)
   );
 }
 
 // comment deleting
 async function handleRemoveComment(event) {
-  const id = event.currentTarget.dataset.id;
+  const { id } = event.currentTarget.parentNode.parentNode.dataset;
   const lis = Array.from(document.querySelectorAll(".comment-list"));
   const li = lis.find((element) => element.dataset.id === id);
   const videoId = videoContainer.dataset.id;
@@ -133,3 +203,81 @@ function showCommentNumber() {
 }
 
 window.addEventListener("DOMContentLoaded", showCommentNumber);
+
+// comment editing
+
+const commentEditBtns = document.querySelectorAll("#commentEditBtn");
+const commentEditCancelBtn = document.getElementById("commentEditCancelBtn");
+const commentEditSubmitBtn = document.getElementById("commentEditSubmitBtn");
+
+function showCommentEditForm(event) {
+  const { id } = event.currentTarget.parentNode.parentNode.dataset;
+  const formLists = document.querySelectorAll(".comment-form-list");
+  const formListsArray = Array.from(formLists);
+  const formList = formListsArray.find((list) => list.dataset.id === id);
+  const commentListArray = Array.from(
+    document.querySelectorAll(".comment-list")
+  );
+  const commentList = commentListArray.find((list) => list.dataset.id === id);
+  const textarea = formList.querySelector("textarea");
+  const comment = commentList.querySelector("p");
+  const text = comment.textContent;
+  textarea.value = text;
+  formList.classList.remove("hidden");
+  commentList.classList.add("hidden");
+  const cancelBtn = formList.querySelector("#commentEditCancelBtn");
+  const commentEditFormsArray = Array.from(
+    document.querySelectorAll("#commentEditForm")
+  );
+  const commentEditForm = commentEditFormsArray.find(
+    (list) => list.dataset.id === id
+  );
+
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    commentList.classList.remove("hidden");
+    formList.classList.add("hidden");
+  });
+  commentEditForm.addEventListener("submit", handleCommentEditSubmit);
+}
+
+async function handleCommentEditSubmit(event) {
+  event.preventDefault();
+  const videoId = videoContainer.dataset.id;
+  const commentId = event.target.dataset.id;
+  const textarea = event.target.querySelector("textarea");
+  const text = textarea.value;
+  if (text === "") {
+    return;
+  }
+  const response = await fetch(
+    `/api/videos/${videoId}/comments/edit/${commentId}`,
+    {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    }
+  );
+  const json = await response.json();
+  showTemporaryComment(json, text);
+  textarea.value = "";
+  const formLists = document.querySelectorAll(".comment-form-list");
+  formLists.forEach((formList) => {
+    if (formList.classList.contains("hidden")) {
+      return;
+    } else {
+      formList.classList.add("hidden");
+    }
+  });
+}
+
+function handleCommentEditCancel(event) {
+  event.preventDefault();
+  console.log(event.currentTarget);
+}
+
+if (commentEditBtns) {
+  commentEditBtns.forEach((commentEditBtn) => {
+    commentEditBtn.addEventListener("click", showCommentEditForm);
+  });
+}

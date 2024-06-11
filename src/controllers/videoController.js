@@ -169,6 +169,8 @@ export const registerView = async (req, res) => {
   return res.sendStatus(200);
 };
 
+// comments
+
 export const saveComments = async (req, res) => {
   console.log(req.body);
   const {
@@ -217,6 +219,23 @@ export const deleteComment = async (req, res) => {
   req.flash("info", "Comment deleted");
   return res.sendStatus(200);
 };
+
+export const editComment = async (req, res) => {
+  const {
+    params: { commentId },
+    body: { text },
+    session: { user },
+  } = req;
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    return res.sendStatus(404);
+  }
+  comment.text = text;
+  comment.save();
+  return res.status(200).json({ user, commentId });
+};
+
+// likes
 
 export const toggleLikes = async (req, res) => {
   const {

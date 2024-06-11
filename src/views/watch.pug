@@ -76,7 +76,8 @@ block content
                 img.commentSection_avatar(src=`/${loggedInUser.avatarUrl}`)
                 form.commentSection_form
                     textarea(placeholder="Write your comment" name="comment")
-                    button.button Comment
+                    div.commentSection_form_button-container
+                        button.button Comment
             if !loggedIn
                 span.commentSection__notice Log in first to write a comment.
         ul#commentList.comment-lists
@@ -93,10 +94,22 @@ block content
                     if loggedInUser.username==comment.user.username
                         div.comment-list__comment__menu#commentMenu(data-id=comment._id)
                             <i class="fa-solid fa-ellipsis-vertical"></i>
-                            div.menu__options.hidden#commentMenuOptions(data-id=comment._id)
-                                div.menu__option#commentRemoveBtn(data-id=comment._id)
-                                    <i class="fa-solid fa-trash"></i>
-                                    span remove
+                            //- div.menu__options.hidden#commentMenuOptions(data-id=comment._id)
+                            //-     div.menu__option#commentRemoveBtn(data-id=comment._id)
+                            //-         <i class="fa-solid fa-trash"></i>
+                            //-         span remove
+                            //-     div.menu__option#commentEditBtn(data-id=comment._id)
+                            //-         <i class="fa-solid fa-pen"></i>
+                            //-         span Edit
+                li(data-id=comment._id).comment-form-list.hidden
+                    div.commentSection_form-container
+                        if loggedIn
+                            img.commentSection_avatar(src=`/${loggedInUser.avatarUrl}`)
+                            form.commentSection_form#commentEditForm(data-id=comment._id)
+                                textarea(placeholder="Write your comment" name="comment")
+                                div.commentSection_form_button-container
+                                    button.button#commentEditCancelBtn Cancel
+                                    button.button#commentEditSubmitBtn(type="submit") Edit
                     
 
 block scripts

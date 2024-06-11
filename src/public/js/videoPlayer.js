@@ -114,7 +114,8 @@ function handleMouseLeave() {
 }
 
 function playFaster(event) {
-  if (event.target.parentNode.parentNode.parentNode === commentSection) {
+  const textareas = Array.from(document.querySelectorAll("textarea"));
+  if (textareas.includes(event.target)) {
     return;
   }
   event.preventDefault();
@@ -123,7 +124,8 @@ function playFaster(event) {
   }
 }
 function spaceBarPlay(event) {
-  if (event.target.parentNode.parentNode.parentNode === commentSection) {
+  const textareas = Array.from(document.querySelectorAll("textarea"));
+  if (textareas.includes(event.target)) {
     return;
   }
   if (event.key === " ") {
