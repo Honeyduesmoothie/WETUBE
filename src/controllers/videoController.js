@@ -3,6 +3,7 @@ import User from "../models/User";
 import Comment from "../models/Comment";
 import fs from "fs";
 import path from "path";
+import session from "express-session";
 export const home = async (req, res) => {
   const videos = await Video.find({})
     .populate("owner")
@@ -217,29 +218,70 @@ export const deleteComment = async (req, res) => {
   return res.sendStatus(200);
 };
 
-export const saveLikes = async (req, res) => {
-  const { id } = req.params;
-  const video = await Video.findById(id);
+export const toggleLikes = async (req, res) => {
+  const {
+    params: { id: videoId },
+    session: {
+      user: { _id: userId },
+    },
+  } = req;
+  const video = await Video.findById(videoId);
   if (!video) {
     return res.sendStatus(404);
   }
-  video.meta.likes = video.meta.likes + 1;
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.sendStatus(404);
+  }
+  if (video.meta.likedUsers.includes(userId)) {
+    video.meta.likedUsers.pull(userId);
+    user.likedVideos.pull(videoId);
+    video.meta.likes = video.meta.likes - 1;
+  } else if (user.dislikedVideos.includes(videoId)) {
+    user.dislikedVideos.pull(videoId);
+    user.likedVideos.push(videoId);
+    video.meta.likes = video.meta.likes + 2;
+  } else {
+    video.meta.likedUsers.push(userId);
+    user.likedVideos.push(videoId);
+    video.meta.likes = video.meta.likes + 1;
+  }
   await video.save();
+  await user.save();
+  req.session.user = user;
+
   return res.status(200).json({ likes: video.meta.likes });
 };
 
-export const saveDislikes = async (req, res) => {
-  const { id } = req.params;
-  const video = await Video.findById(id);
+export const toggleDislikes = async (req, res) => {
+  const {
+    params: { id: videoId },
+    session: {
+      user: { _id: userId },
+    },
+  } = req;
+  const video = await Video.findById(videoId);
   if (!video) {
     return res.sendStatus(404);
   }
-  if (video.meta.likes > 0) {
-    video.meta.likes = video.meta.likes - 1;
-  } else {
-    video.meta.likes = 0;
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.sendStatus(404);
   }
-
+  if (video.meta.likedUsers.includes(userId)) {
+    video.meta.likedUsers.pull(userId);
+    user.likedVideos.pull(videoId);
+    user.dislikedVideos.push(videoId);
+    video.meta.likes = video.meta.likes - 2;
+  } else if (user.dislikedVideos.includes(videoId)) {
+    user.dislikedVideos.pull(videoId);
+    video.meta.likes = video.meta.likes + 1;
+  } else {
+    user.dislikedVideos.push(videoId);
+    video.meta.likes = video.meta.likes - 1;
+  }
   await video.save();
+  await user.save();
+  req.session.user = user;
   return res.status(200).json({ likes: video.meta.likes });
 };

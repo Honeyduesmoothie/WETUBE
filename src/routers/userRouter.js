@@ -14,7 +14,7 @@ import {
   protectorMiddelware,
   publicOnlyMiddleware,
   uploadAvatar,
-} from "../middlewares/localmiddleware";
+} from "../middlewares/localMiddleware";
 
 const userRouter = express.Router();
 

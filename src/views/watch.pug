@@ -30,12 +30,35 @@ block content
                         span=video.owner.username
             div.video-meta__infor__misc
                 div.video-meta__infor__misc__likes
-                    button.button#videoLikes 
-                        <i class="fa-regular fa-thumbs-up"></i>
-                        span#videoLikesCount=video.meta.likes
-                    button.button#videoDislikes
-                        <i class="fa-regular fa-thumbs-down"></i>
-                        span 
+                    if loggedIn
+                        if loggedInUser.likedVideos.includes(video.id)
+                            button.button.active-button#videoLikes 
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                if video.meta.likes>0
+                                    span#videoLikesCount=video.meta.likes
+                                else 
+                                    span#videoLikesCount 0
+                        else
+                            button.button#videoLikes 
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                if video.meta.likes>0
+                                    span#videoLikesCount=video.meta.likes
+                                else 
+                                    span#videoLikesCount 0
+                        if loggedInUser.dislikedVideos.includes(video.id)
+                            button.button.active-button#videoDislikes
+                                <i class="fa-regular fa-thumbs-down"></i>
+                        else
+                            button.button#videoDislikes
+                                <i class="fa-regular fa-thumbs-down"></i>
+                                span 
+                    else
+                        button.button#videoLikes(disabled="true") 
+                            <i class="fa-regular fa-thumbs-up"></i>
+                            span#videoLikesCount=video.meta.likes
+                        button.button#videoDislikes(disabled="true")
+                            <i class="fa-regular fa-thumbs-down"></i>
+                            span 
         div.video-meta__detail
             span.video-meta__detail__views #{video.meta.views} views   
             span.video-meta__detail__date #{video.createdAt}

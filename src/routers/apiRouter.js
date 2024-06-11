@@ -3,15 +3,16 @@ import {
   registerView,
   saveComments,
   deleteComment,
-  saveLikes,
-  saveDislikes,
+  toggleLikes,
+  toggleDislikes,
 } from "../controllers/videoController";
+import { protectorMiddelware } from "../middlewares/localMiddleware";
 
 const apiRouter = express.Router();
 
 apiRouter.post("/videos/:id/view", registerView);
-apiRouter.post("/videos/:id/likes", saveLikes);
-apiRouter.post("/videos/:id/dislikes", saveDislikes);
+apiRouter.post("/videos/:id/likes", protectorMiddelware, toggleLikes);
+apiRouter.post("/videos/:id/dislikes", protectorMiddelware, toggleDislikes);
 apiRouter.post("/videos/:id/comments", saveComments);
 apiRouter.delete("/videos/:videoId/comments/delete/:commentId", deleteComment);
 

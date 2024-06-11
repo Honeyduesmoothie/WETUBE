@@ -11,7 +11,7 @@ export const protectorMiddelware = (req, res, next) => {
     next();
   } else {
     req.flash("error", "Please log in first");
-    return res.redirect("/login");
+    return res.status(401).redirect("/login");
   }
 };
 

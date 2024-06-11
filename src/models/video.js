@@ -12,6 +12,7 @@ const videoSchema = new mongoose.Schema({
   meta: {
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
+    likedUsers: [{ type: mongoose.ObjectId, ref: "User" }],
   },
 });
 

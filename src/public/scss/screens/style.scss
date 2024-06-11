@@ -38,6 +38,13 @@ main {
     background-color: $grey-1;
     cursor: pointer;
   }
+  &:disabled {
+    background-color: $grey-1;
+  }
+}
+
+.active-button {
+  background-color: rgb(255, 127, 80, 0.6);
 }
 
 .form-button {

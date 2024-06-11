@@ -185,6 +185,7 @@ const videoDislikes = document.getElementById("videoDislikes");
 
 async function handleVideoLikes() {
   const { id } = videoContainer.dataset;
+  videoLikes.classList.toggle("active-button");
   const response = await fetch(`/api/videos/${id}/likes`, {
     method: "post",
   });
@@ -194,6 +195,7 @@ async function handleVideoLikes() {
 
 async function handleDislikes() {
   const { id } = videoContainer.dataset;
+  videoDislikes.classList.toggle("active-button");
   const response = await fetch(`/api/videos/${id}/dislikes`, {
     method: "post",
   });
