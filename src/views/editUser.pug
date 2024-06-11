@@ -5,7 +5,7 @@ block content
         span=errorMessage
     form.general-form(method="post" enctype="multipart/form-data")
         img.edit-profile-avatar(src=`/${user.avatarUrl}`)
-        label(for="avatar") Set your avatar image
+        label.form-button(for="avatar") Set your avatar image
         input(name="avatar" type="file"  accept="image/*" id="avatar")
         input(name="username" value=user.username required)
         input(name="email" value=user.email type="email" required)
@@ -14,3 +14,14 @@ block content
     hr
     if !user.socialID
         a(href="change-password").button.change-password Change password
+    a.button.delete-account#modalBtn Delete this account
+    div.modal.hidden
+        div.modal__background
+        div.modal__content
+            h1 Are you sure to delete this account?
+            div.modal__btn-container
+                a(href=`delete`)
+                    button#btnYes.button Yes
+                button#btnNo.button No
+block scripts
+    script(src="/assets/js/modal.js") 

@@ -9,8 +9,9 @@ block content
                 p.profile__user__info__nickname=user.nickname
                 p #{user.email}
                 p #{user.username}
-                p 
-                    a.profile__user__info__edit.button(href="/users/edit") Edit profile
+                if loggedInUser._id===user.id
+                    p 
+                        a.profile__user__info__edit.button(href=`/users/${user._id}/edit`) Edit profile
                 if user.socialID
                     p Logged in via Github
         div.profile__videos

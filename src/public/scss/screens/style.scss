@@ -2,6 +2,7 @@
 @import "../config/reset";
 @import "../components/header.scss";
 @import "../components/footer.scss";
+@import "../components/modal.scss";
 @import "./home.scss";
 @import "./search.scss";
 @import "./upload.scss";
@@ -22,6 +23,7 @@ main {
 
 .button {
   background-color: white;
+  border: transparent;
   box-shadow: 0 0 5px rgb(0, 0, 0, 0.3);
   padding: 10px 20px;
   border-radius: 20px;
@@ -34,6 +36,7 @@ main {
   width: max-content;
   &:hover {
     background-color: $grey-1;
+    cursor: pointer;
   }
 }
 
@@ -113,5 +116,10 @@ main {
   background-color: rgb(255, 0, 0);
   color: white;
   animation: notification 5s ease-in-out;
+  opacity: 0;
+}
+
+.hidden {
+  display: none;
   opacity: 0;
 }

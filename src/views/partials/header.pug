@@ -16,9 +16,9 @@ header
                         i(class="fa-solid fa-upload")
                         span Upload
                 li 
-                    a(href=`/users/${user._id}`)
+                    a(href=`/users/${loggedInUser._id}`)
                         i(class="fa-regular fa-user")
-                        span=user.username
+                        span=loggedInUser.username
                 li 
                     a(href="/users/logout") 
                         i(class="fa-solid fa-right-from-bracket")

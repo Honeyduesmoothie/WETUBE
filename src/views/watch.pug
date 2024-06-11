@@ -21,19 +21,62 @@ block content
     div.video-meta
         h1.video-meta__title=video.title
         div.video-meta__info
-            div.video-meta__info__avatar
-                img(src=`/${user.avatarUrl}`)
-            div.video-meta__info__profile
-                a(href=`/users/${video.owner._id}`)=video.owner.username
+            div.video-meta__info__user
+                div.video-meta__info__user__avatar
+                    a(href=`/users/${video.owner._id}`)
+                        img(src=`/${video.owner.avatarUrl}`)
+                div.video-meta__info__user__profile
+                    a(href=`/users/${video.owner._id}`)
+                        span=video.owner.username
+            div.video-meta__infor__misc
+                div.video-meta__infor__misc__likes
+                    button.button#videoLikes 
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        span#videoLikesCount=video.meta.likes
+                    button.button#videoDislikes
+                        <i class="fa-regular fa-thumbs-down"></i>
+                        span 
         div.video-meta__detail
             span.video-meta__detail__views #{video.meta.views} views   
             span.video-meta__detail__date #{video.createdAt}
             each hashtag in video.hashtags
                 span#hashtag=hashtag
             p=video.description
-        if user.username===video.owner.username
+        if loggedInUser.username===video.owner.username
             a.button(href=`${video.id}/edit`) Edit this video &rarr;
             br
             a.button(href=`${video.id}/delete`) Delete this video &rarr;
+    div#commentSection.commentSection
+        div#commentNumber.commentSection__commentNumber
+        div.commentSection_form-container
+            if loggedIn
+                img.commentSection_avatar(src=`/${loggedInUser.avatarUrl}`)
+                form.commentSection_form
+                    textarea(placeholder="Write your comment" name="comment")
+                    button.button Comment
+            if !loggedIn
+                span.commentSection__notice Log in first to write a comment.
+        ul#commentList.comment-lists
+            each comment in video.comments.reverse()
+                li(data-id=comment._id).comment-list
+                    div.comment-wrapper
+                        a(href=`/users/${comment.user._id}`)
+                            img.comment-list__avatar(src=`/${comment.user.avatarUrl}`)
+                        
+                        div.comment-list__comment
+                            a(href=`/users/${comment.user._id}`)
+                                h3.comment-list__comment__user @#{comment.user.nickname}
+                            p.comment-list__comment__text=comment.text
+                    if loggedInUser.username==comment.user.username
+                        div.comment-list__comment__menu#commentMenu(data-id=comment._id)
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            div.menu__options.hidden#commentMenuOptions(data-id=comment._id)
+                                div.menu__option#commentRemoveBtn(data-id=comment._id)
+                                    <i class="fa-solid fa-trash"></i>
+                                    span remove
+                    
+
 block scripts
-    script(src="/assets/js/video.js")  
+    script(src="/assets/js/video.js")
+    if loggedIn
+        script(src="/assets/js/comment.js")  
