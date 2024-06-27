@@ -81,8 +81,11 @@ export const postUpload = async (req, res) => {
       user: { _id },
     },
   } = req;
-  const videoUrl = video[0].path;
-  const thumbnailUrl = thumbnail[0].path;
+  // const videoUrl = video[0].path;
+  // const thumbnailUrl = thumbnail[0].path;
+  const videoUrl = video[0].location;
+  const thumbnailUrl = thumbnail[0].location;
+
   try {
     const newVideo = await Video.create({
       videoUrl,

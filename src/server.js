@@ -7,7 +7,7 @@ import userRouter from "./routers/userRouter";
 import apiRouter from "./routers/apiRouter";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import { localMiddleware } from "./middlewares/localmiddleware";
+import { localMiddleware } from "./middlewares/localMiddleware";
 
 const app = express();
 const logger = morgan("dev");

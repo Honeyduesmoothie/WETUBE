@@ -1,7 +1,7 @@
 mixin videoList(video)
     div.video
         a(href=`/videos/${video.id}`) 
-            img#thumb
+            img#thumb(src=video.thumbnailUrl)
         a(href=`/videos/${video.id}`)
             div.detail
                 div.detail__title

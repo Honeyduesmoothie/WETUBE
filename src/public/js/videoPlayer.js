@@ -15,10 +15,8 @@ let controlsTimeout = null;
 let mouseTimeout = null;
 video.volume = volume;
 // play button
+
 const playNpause = (e) => {
-  if (e.target === videoContainer) {
-    return;
-  }
   if (video.paused) {
     playVideo();
   } else {
@@ -67,12 +65,12 @@ function handleVolumeControl(event) {
 }
 function handleLMT(e) {
   totalTime.textContent = useISOString(video.duration);
-  timeline.max = video.duration;
+  timeline.max = useISOString(video.duration);
 }
 
 function handleTimeUpdate() {
   currentTime.textContent = useISOString(video.currentTime);
-  timeline.value = video.currentTime;
+  timeline.value = useISOString(video.currentTime);
 }
 
 let playStatus = false;
@@ -138,10 +136,11 @@ async function handleEnded() {
   await fetch(`/api/videos/${id}/view`, {
     method: "post",
   });
+  playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
 }
 
 playBtn.addEventListener("click", playNpause);
-videoContainer.addEventListener("click", playNpause);
+video.addEventListener("click", playNpause);
 window.addEventListener("keydown", playFaster);
 window.addEventListener("keyup", spaceBarPlay);
 muteBtn.addEventListener("click", handleMuteBtn);

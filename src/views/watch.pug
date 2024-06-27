@@ -2,7 +2,7 @@ extends base.pug
 
 block content 
     div#videoContainer(data-id=video.id)
-        video(src=`/${video.videoUrl}` poster=`/${video.thumbnailUrl}`)
+        video(src=`${video.videoUrl}` poster=`${video.thumbnailUrl}`)
         div#controls
             div#playNmute
                 button#playBtn
@@ -24,7 +24,7 @@ block content
             div.video-meta__info__user
                 div.video-meta__info__user__avatar
                     a(href=`/users/${video.owner._id}`)
-                        img(src=`/${video.owner.avatarUrl}`)
+                        img(src=`${video.owner.avatarUrl}`)
                 div.video-meta__info__user__profile
                     a(href=`/users/${video.owner._id}`)
                         span=video.owner.username
@@ -73,7 +73,7 @@ block content
         div#commentNumber.commentSection__commentNumber
         div.commentSection_form-container
             if loggedIn
-                img.commentSection_avatar(src=`/${loggedInUser.avatarUrl}`)
+                img.commentSection_avatar(src=`${loggedInUser.avatarUrl}`)
                 form.commentSection_form
                     textarea(placeholder="Write your comment" name="comment")
                     div.commentSection_form_button-container
@@ -85,7 +85,7 @@ block content
                 li(data-id=comment._id).comment-list
                     div.comment-wrapper
                         a(href=`/users/${comment.user._id}`)
-                            img.comment-list__avatar(src=`/${comment.user.avatarUrl}`)
+                            img.comment-list__avatar(src=`${comment.user.avatarUrl}`)
                         
                         div.comment-list__comment
                             a(href=`/users/${comment.user._id}`)
@@ -104,7 +104,7 @@ block content
                 li(data-id=comment._id).comment-form-list.hidden
                     div.commentSection_form-container
                         if loggedIn
-                            img.commentSection_avatar(src=`/${loggedInUser.avatarUrl}`)
+                            img.commentSection_avatar(src=`${loggedInUser.avatarUrl}`)
                             form.commentSection_form#commentEditForm(data-id=comment._id)
                                 textarea(placeholder="Write your comment" name="comment")
                                 div.commentSection_form_button-container

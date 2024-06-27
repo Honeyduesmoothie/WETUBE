@@ -11,7 +11,6 @@ module.exports = {
     comment: BASE_URL + "/comment.js",
     modal: BASE_URL + "/modal.js",
   },
-  mode: "development",
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/style.css",
@@ -22,7 +21,6 @@ module.exports = {
     path: path.resolve(__dirname, "assets"),
     clean: true,
   },
-  watch: true,
   module: {
     rules: [
       {

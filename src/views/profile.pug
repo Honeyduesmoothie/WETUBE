@@ -4,7 +4,7 @@ include mixins/videoList
 block content
     div.profile
         div.profile__user
-            img(src=`/${user.avatarUrl}` width="100px" height="100px")
+            img(src=`${user.avatarUrl}` width="100px" height="100px")
             div.profile__user__info
                 p.profile__user__info__nickname=user.nickname
                 p #{user.email}

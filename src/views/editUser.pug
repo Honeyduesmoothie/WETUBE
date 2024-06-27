@@ -4,7 +4,9 @@ block content
     if errorMessage
         span=errorMessage
     form.general-form(method="post" enctype="multipart/form-data")
-        img.edit-profile-avatar(src=`/${user.avatarUrl}`)
+        //- img.edit-profile-avatar(src=`/${user.avatarUrl}`)
+        img.edit-profile-avatar(src=`${user.avatarUrl}`)
+
         label.form-button(for="avatar") Set your avatar image
         input(name="avatar" type="file"  accept="image/*" id="avatar")
         input(name="username" value=user.username required)

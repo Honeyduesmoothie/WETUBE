@@ -39,7 +39,7 @@ function showTemporaryComment(json, text) {
   a.href = `/users/${json.user._id}`;
   const avatar = document.createElement("img");
   avatar.className = "comment-list__avatar";
-  avatar.src = `/${json.user.avatarUrl}`;
+  avatar.src = `${json.user.avatarUrl}`;
   a.appendChild(avatar);
   div1.appendChild(a);
   const div2 = document.createElement("div");

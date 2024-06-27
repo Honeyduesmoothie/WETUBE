@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   nickname: { type: String, required: true },
   socialID: { type: Boolean },
   joinedAt: { type: Date, required: true, default: Date.now },
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "" },
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   comments: [{ type: mongoose.ObjectId, ref: "Comment" }],
   likedVideos: [{ type: mongoose.ObjectId, ref: "video" }],
